@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonidos de Animales - Preescolar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+        :root {
+            --bg-color: #f0fdf4;
+            --card-bg: #ffffff;
+            --primary: #4CAF50;
+        }
+
+        body {
+            font-family: 'Fredoka', 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #2e7d32;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p {
+            color: #555;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .animal-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 4px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.2);
+            border-color: var(--primary);
+        }
+
+        .animal-card:active {
+            transform: scale(0.95);
+        }
+
+        .emoji {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .animal-card:hover .emoji {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .playing .emoji {
+            animation: bounce 0.5s ease infinite;
+        }
+
+        .name {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .play-icon {
+            margin-top: 1rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            display: inline-block;
+        }
+
+        /* Enfoque visual: atenuar las tarjetas que no están sonando */
+        .grid.focus-active .animal-card:not(.playing) {
+            opacity: 0.25;
+            filter: grayscale(80%) blur(1px);
+            transform: scale(0.92);
+            pointer-events: none; /* Evita clics incidentales mientras suena */
+        }
+
+        .grid.focus-active .animal-card.playing {
+            transform: scale(1.08);
+            box-shadow: 0 20px 40px rgba(76, 175, 80, 0.4);
+            border-color: var(--primary);
+            z-index: 10;
+        }
+        
+        /* Colores segun animal */
+        .vaca { border-bottom-color: #8D6E63; }
+        .pollito { border-bottom-color: #FFCA28; }
+        .perro { border-bottom-color: #FF7043; }
+        .gato { border-bottom-color: #AB47BC; }
+        .gallo { border-bottom-color: #EF5350; }
+        .caballo { border-bottom-color: #795548; } 
+    </style>
+</head>
+<body>
+
+    <h1>🎵 ¡Escucha los Animales! 🐶</h1>
+    <p>Haz clic en cualquier animalito para escuchar el sonido que hace.</p>
+
+    <div class="grid">
+        <div class="animal-card vaca" 
+             data-sound1="https://www.myinstants.com/media/sounds/cow-moo.mp3" 
+             data-sound2="https://commons.wikimedia.org/wiki/Special:FilePath/Cow_mooing.ogg" 
+             data-fallback="¡Muuuu, muuuu!">
+            <div class="emoji">🐮</div>
+            <div class="name">Vaca</div>
+            <div class="play-icon">▶️ Escuchar</div>
+        </div>
+
+        <div class="animal-card pollito" 
+             data-sound1="https://commons.wikimedia.org/wiki/Special:FilePath/Chickens_demanding_food.ogg" 
+             data-sound2="https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_clucking.ogg" 
+             data-fallback="¡Pío pío, pío pío!">
+            <div class="emoji">🐥</div>
+            <div class="name">Pollito</div>
+            <div class="play-icon">▶️ Escuchar</div>
+        </div>
+
+        <div class="animal-card perro" 
+             data-sound1="./perro_1.ogg" 
+             data-sound2="./perro_2.ogg" 
+             data-fallback="¡Guau, guau!">
+            <div class="emoji">🐶</div>
+            <div class="name">Perro</div>
+            <div class="play-icon">▶️ Escuchar</div>
+        </div>
+
+        <div class="animal-card gato" 
+             data-sound1="https://www.myinstants.com/media/sounds/cat-meow.mp3" 
+             data-sound2="https://commons.wikimedia.org/wiki/Special:FilePath/Cat_Meow_2.ogg" 
+             data-fallback="¡Miau, miau!">
+            <div class="emoji">🐱</div>
+            <div class="name">Gato</div>
+            <div class="play-icon">▶️ Escuchar</div>
+        </div>
+
+        <div class="animal-card gallo" 
+             data-sound1="https://www.myinstants.com/media/sounds/rooster.mp3" 
+             data-sound2="https://commons.wikimedia.org/wiki/Special:FilePath/Rooster_crowing.ogg" 
+             data-fallback="¡Kikirikí, Kikirikí!">
+            <div class="emoji">🐓</div>
+            <div class="name">Gallo</div>
+            <div class="play-icon">▶️ Escuchar</div>
+        </div>
+
+        <div class="animal-card caballo" 
+             data-sound1="./horse.mp3" 
+             data-sound2="./horse.ogg" 
+             data-fallback="¡Hiiiii, hiiiii!">
+            <div class="emoji">🐴</div>
+            <div class="name">Caballo</div>
+            <div class="play-icon">▶️ Escuchar</div>
+        </div>
+    </div>
+
+    <!-- El reproductor web se actualiza dinamicamente con multiples origenes (sources) -->
+    <audio id="audio-player" preload="auto"></audio>
+
+    <script>
+        const cards = document.querySelectorAll('.animal-card');
+        const grid = document.querySelector('.grid');
+        const audioPlayer = document.getElementById('audio-player');
+        let currentCard = null;
+        let syntheticVoiceIsPlaying = false;
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const s1 = card.getAttribute('data-sound1');
+                const s2 = card.getAttribute('data-sound2');
+                const fallbackText = card.getAttribute('data-fallback');
+                
+                // Detener audio anterior
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;
+                audioPlayer.innerHTML = ''; // Limpiar rutas anteriores
+                
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    syntheticVoiceIsPlaying = false;
+                }
+                
+                if (currentCard) {
+                    currentCard.classList.remove('playing');
+                }
+                
+                card.classList.add('playing');
+                grid.classList.add('focus-active');
+                currentCard = card;
+                
+                // Cargar todas las posibles versiones del audio (MP3 primero, OGG despues)
+                if (s1) {
+                    let source1 = document.createElement('source');
+                    source1.src = s1;
+                    source1.type = 'audio/mpeg';
+                    audioPlayer.appendChild(source1);
+                }
+                if (s2) {
+                    let source2 = document.createElement('source');
+                    source2.src = s2;
+                    source2.type = 'audio/ogg';
+                    audioPlayer.appendChild(source2);
+                }
+                
+                audioPlayer.load();
+                audioPlayer.volume = 1.0;
+                
+                const audioPromise = audioPlayer.play();
+
+                if (audioPromise !== undefined) {
+                    audioPromise.catch(error => {
+                        console.log("Error de streaming, activando Text-To-Speech:", error);
+                        // Sistema infallible: utiliza voz sintetizada de emergencia
+                        if ('speechSynthesis' in window) {
+                            syntheticVoiceIsPlaying = true;
+                            
+                            // Formar frase con refuerzo verbal pausado y silabeado
+                            const name = card.querySelector('.name').textContent;
+                            const article = (name.toLowerCase() === 'vaca') ? 'Esta es la' : 'Este es el';
+                            
+                            let syllabledName = name;
+                            if (name.toLowerCase() === 'vaca') syllabledName = 'va... ca...';
+                            else if (name.toLowerCase() === 'pollito') syllabledName = 'po... lli... to...';
+                            else if (name.toLowerCase() === 'perro') syllabledName = 'pe... rro...';
+                            else if (name.toLowerCase() === 'gato') syllabledName = 'ga... to...';
+                            else if (name.toLowerCase() === 'gallo') syllabledName = 'ga... llo...';
+                            else if (name.toLowerCase() === 'caballo') syllabledName = 'ca... ba... llo...';
+                            
+                            const phrase = `${article}... ${syllabledName}... y hace... ${fallbackText}`;
+                            
+                            const utterance = new SpeechSynthesisUtterance(phrase);
+                            utterance.lang = 'es-MX'; // Español
+                            utterance.pitch = 1.4; // Tono animalito
+                            utterance.rate = 0.75; // Ritmo pausado y lento para facilitar el aprendizaje
+                            
+                            utterance.onend = function() {
+                                card.classList.remove('playing');
+                                grid.classList.remove('focus-active');
+                                syntheticVoiceIsPlaying = false;
+                            };
+                            
+                            window.speechSynthesis.speak(utterance);
+                        } else {
+                            card.classList.remove('playing');
+                            grid.classList.remove('focus-active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Detener animacion
+        audioPlayer.addEventListener('ended', () => {
+            if (currentCard && !syntheticVoiceIsPlaying) {
+                currentCard.classList.remove('playing');
+                grid.classList.remove('focus-active');
+            }
+        });
+    </script>
+</body>
+</html>
